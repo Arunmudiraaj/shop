@@ -15,8 +15,16 @@ const Order = shopDB.define('tbl_order', {
     status: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: 'pending' // could be 'shipped', 'delivered', etc.
-    }
+        defaultValue: 'pending'
+    },
+    paymentMethod: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      shippingAddress: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
 }, { timestamps: true });
 
 // Associations

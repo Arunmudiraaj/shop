@@ -9,7 +9,7 @@ function ensureAuth(accessRoles) {
     // Gather the jwt access token from the request header
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(" ")[1];
-    if (token == null) throw new CustomError(401, "Invalid token!");
+    if (token == null || !token) throw new CustomError(401, "Invalid token!");
       const verified = jwt.verify(token, process.env.TOKEN_SECRET);
 
       const userData = await User.findByPk(verified.id);

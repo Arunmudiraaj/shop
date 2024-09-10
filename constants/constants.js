@@ -13,6 +13,13 @@ const constants = {
   FIREBASE_BUCKET: {
     PRODUCT_IMAGES: "product-images",
   },
+  // Order status
+  ORDER_STATUS: {
+    PENDING: "pending",
+    SHIPPED: "shipped",
+    DELIVERED: "delivered",
+    CANCELLED: "cancelled",
+  },
 };
 
 module.exports = constants;

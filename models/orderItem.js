@@ -20,7 +20,7 @@ const OrderItem = shopDB.define('tbl_order_item', {
 }, { timestamps: true });
 
 // Associations
-Order.belongsToMany(Product, { through: OrderItem });
-Product.belongsToMany(Order, { through: OrderItem });
+Order.belongsToMany(Product, { through: OrderItem, foreignKey: 'orderId', otherKey: 'productId' });
+Product.belongsToMany(Order, { through: OrderItem, foreignKey: 'productId', otherKey: 'orderId' });
 
-module.exports = OrderItem;
+module.exports = OrderItem; 

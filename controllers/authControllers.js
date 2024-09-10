@@ -27,7 +27,7 @@ const registerUser = async (req, res) => {
     const savedUser = await user.save();
     savedUser.password = undefined;
 
-    return sendSuccessResponse(res, 201, "User created successfully", savedUser);
+    return sendSuccessResponse(res, 201, savedUser, "User created successfully",);
   } catch (err) {
     console.log("Error: ", err);
     return sendErrorResponse(res, err);
@@ -51,18 +51,19 @@ const loginUser = async (req, res) => {
         throw new CustomError(400, "Invalid password");
       }
       // Create and assign a token
-      const token = jwt.sign(
-        {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          roleId: user.roleId,
-        },
+      const userData = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        roleId: user.roleId,
+      }
+      const token = jwt.sign(userData,
         process.env.TOKEN_SECRET,
         { expiresIn: process.env.JWT_TOKEN_EXPIRES_IN || "30d" }
       );
       return sendSuccessResponse(res, 200, {
-        access_token: token,
+        accessToken: token,
+        user: userData
       }, "User logged in successfully");
     } else {
       throw new CustomError(400, "User not found");

@@ -12,8 +12,10 @@ const uploadProductImage = require("../utils/uploadImages");
 
 const getAllProducts = async (req, res) => {
   try {
-    const { page = 1, limit = 10, search = "" } = req.query; // Default page, limit, and search term
+    let { page = 1, limit = 0, search = "" } = req.query; // Default page, limit, and search term
+    limit = parseInt(limit) || 0;
     const offset = (page - 1) * limit;
+    const limitFilter = limit ? { limit } : {};
     const products = await Product.findAndCountAll({
       where: {
         // search condition for name or description
@@ -22,7 +24,7 @@ const getAllProducts = async (req, res) => {
           { description: { [Op.like]: `%${search}%` } },
         ],
       },
-      limit: parseInt(limit), // Number of products per page
+      ...limitFilter,
       offset: parseInt(offset), // Skip products for pagination
     });
     const result = {
@@ -83,6 +85,7 @@ const createProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id, "AAA")
     if (!id) {
       throw new CustomError(400, "Product ID is invalid");
     }

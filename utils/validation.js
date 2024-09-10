@@ -1,7 +1,7 @@
-const Joi = require('joi');
+const Joi = require("joi");
 
 // general validation function for consistent error objects
-exports.handleValidation = async (errorObj) => {
+const handleValidation = async (errorObj) => {
   const { error } = errorObj;
   if (error) {
     return { isValid: false, error_msg: error.details[0].message };
@@ -25,7 +25,7 @@ exports.registerValidation = (data) => {
 exports.loginValidation = (data) => {
   const schema = Joi.object({
     email: Joi.string().min(6).required().email(),
-    password: Joi.string().required()
+    password: Joi.string().required(),
   });
 
   return handleValidation(schema.validate(data));
@@ -48,8 +48,16 @@ exports.createProductValidation = (data) => {
 exports.addItemToCartValidation = (data) => {
   const schema = Joi.object({
     productId: Joi.number().required(),
-    quantity: Joi.number().min(1).required(),
+    quantity: Joi.number().min(0).required(),
   });
   return handleValidation(schema.validate(data));
 };
 
+// order validations
+exports.createOrderValidation = (data) => {
+  const schema = Joi.object({
+    paymentMethod: Joi.string().required(),
+    shippingAddress: Joi.string().required(),
+  });
+  return handleValidation(schema.validate(data));
+};

@@ -10,7 +10,9 @@ const getPublicUrl = (folderName, filename) => {
 const uploadProductImage = async (file) => {
   return new Promise((resolve, reject) => {
     const uniqueFileName = `${uuidv4()}_${path.basename(file.originalname)}`;
-    const fileUpload = bucket.file(`${FIREBASE_BUCKET.PRODUCT_IMAGES}/${uniqueFileName}`);
+    const fileUpload = bucket.file(
+      `${FIREBASE_BUCKET.PRODUCT_IMAGES}/${uniqueFileName}`
+    );
 
     const stream = fileUpload.createWriteStream({
       metadata: {
@@ -23,7 +25,10 @@ const uploadProductImage = async (file) => {
     stream.on("finish", async () => {
       try {
         await fileUpload.makePublic();
-        const imageUrl = getPublicUrl(FIREBASE_BUCKET.PRODUCT_IMAGES, uniqueFileName);
+        const imageUrl = getPublicUrl(
+          FIREBASE_BUCKET.PRODUCT_IMAGES,
+          uniqueFileName
+        );
         resolve(imageUrl);
       } catch (error) {
         reject(error);
