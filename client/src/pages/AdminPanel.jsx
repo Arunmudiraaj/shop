@@ -52,7 +52,6 @@ const AdminPanel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (
-      !file ||
       !formData.name ||
       !formData.description ||
       !formData.price ||
